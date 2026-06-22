@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentalEduHub - Project Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #82ffe2;
+            --primary-dark: #50e6c2;
+            --secondary: #6c757d;
+            --success: #198754;
+            --info: #0dcaf0;
+            --light: #f8f9fa;
+            --dark: #000000;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4fbf6 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--dark);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--dark);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="2" fill="rgba(0,0,0,0.05)"/></svg>');
+            opacity: 0.3;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+            color: #000;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            color: #000;
+        }
+
+        .toc {
+            background: #fff;
+            padding: 40px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .toc h2 {
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .toc li {
+            background: var(--light);
+            padding: 0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .toc li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
+        }
+
+        .toc a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toc-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--dark);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+
+        .content {
+            padding: 60px 40px;
+            background: #fcfcfc;
+        }
+
+        .diagram-section {
+            margin-bottom: 80px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .diagram-section:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .diagram-section h2 {
+            color: var(--dark);
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .diagram-section p {
+            color: #444;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .mermaid {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            min-height: 300px;
+        }
+
+        .diagram-controls {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(130, 255, 226, 0.4);
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(130, 255, 226, 0.6);
+        }
+
+        button.download-all {
+            background: var(--dark);
+            color: var(--primary);
+            font-size: 1.1em;
+            padding: 16px 32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button.download-all:hover {
+            background: #333;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .badge {
+            background: var(--light);
+            color: var(--dark);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.5em;
+            vertical-align: middle;
+            border: 1px solid #eee;
+            font-weight: 700;
+        }
+
+        footer {
+            background: var(--dark);
+            padding: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .diagram-section {
+                padding: 20px;
+            }
+
+            .toc ul {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>DentalEduHub Architecture</h1>
+            <p>Comprehensive Technical Documentation & System Diagrams</p>
+        </header>
+
+        <div class="toc">
+            <h2>📑 Diagram Navigation</h2>
+            <ul>
+                <li><a onclick="scrollToSection('erd')"><span class="toc-icon">🗄️</span> Database ERD</a></li>
+                <li><a onclick="scrollToSection('usecase')"><span class="toc-icon">👥</span> Use Case Diagram</a></li>
+                <li><a onclick="scrollToSection('sequence-login')"><span class="toc-icon">🔐</span> Login Sequence</a>
+                </li>
+                <li><a onclick="scrollToSection('sequence-forum')"><span class="toc-icon">💬</span> Forum Sequence</a>
+                </li>
+                <li><a onclick="scrollToSection('flow-video')"><span class="toc-icon">📹</span> Video Workflow</a></li>
+                <li><a onclick="scrollToSection('state-topic')"><span class="toc-icon">🔄</span> Topic State Machine</a>
+                </li>
+                <li><a onclick="scrollToSection('rbac')"><span class="toc-icon">🛡️</span> RBAC Matrix</a></li>
+            </ul>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="download-all" onclick="downloadAllDiagrams()">
+                    📥 Download All Diagrams
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- 1. ERD -->
+            <div class="diagram-section" id="erd">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Entity Relationship Diagram <span class="badge">DATA</span></h2>
+                        <p>Database schema structure and relationships</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-erd">
+                    erDiagram
+                    USERS ||--o{ FORUM_TOPICS : creates
+                    USERS ||--o{ FORUM_REPLIES : writes
+                    CATEGORIES ||--o{ VIDEOS : contains
+                    CATEGORIES ||--o{ FORUM_TOPICS : categorizes
+                    FORUM_TOPICS ||--o{ FORUM_REPLIES : has
+
+                    USERS {
+                    int id PK
+                    string username
+                    string email
+                    string password_hash
+                    string full_name
+                    string role "admin/Doctor"
+                    datetime created_at
+                    }
+
+                    CATEGORIES {
+                    int id PK
+                    string name
+                    int display_order
+                    datetime created_at
+                    }
+
+                    VIDEOS {
+                    int id PK
+                    string title
+                    string slug
+                    int category_id FK
+                    string video_url
+                    int duration
+                    int views
+                    boolean is_published
+                    datetime created_at
+                    }
+
+                    FORUM_TOPICS {
+                    int id PK
+                    int user_id FK
+                    int category_id FK
+                    string title
+                    text content
+                    boolean is_pinned
+                    boolean is_locked
+                    int views
+                    datetime created_at
+                    }
+
+                    FORUM_REPLIES {
+                    int id PK
+                    int topic_id FK
+                    int user_id FK
+                    text content
+                    datetime created_at
+                    }
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+            <!-- 2. Use Case -->
+            <div class="diagram-section" id="usecase">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Use Case Diagram <span class="badge">BEHAVIOR</span></h2>
+                        <p>Detailed interactions with System Boundary, Includes, and Extends relationships</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-usecase">
+flowchart TB
+ subgraph subGraph0["DentalEduHub System"]
+        UC1(["Register"])
+        UC2(["Login"])
+        UC3(["Search Content"])
+        UC4(["Watch Video"])
+        UC5(["Rate Video"])
+        UC6(["Create Topic"])
+        UC7(["Manage Profile"])
+        UC8(["Manage Videos"])
+        UC9(["Upload Video"])
+        UC10(["Manage Users"])
+  end
+    Visitor(("Visitor")) --> UC1 & UC3
+    Doctor(("Doctor")) --> UC2 & UC3 & UC4 & UC6 & UC7
+    Admin(("Admin")) --> UC8 & UC10
+    UC4 -. &lt;&lt;extend&gt;&gt; .-> UC3
+    UC5 -. &lt;&lt;extend&gt;&gt; .-> UC4
+    UC6 -. &lt;&lt;include&gt;&gt; .-> UC2
+    UC8 -. &lt;&lt;include&gt;&gt; .-> UC9
+
+    style UC1 fill:#fff,stroke:#333
+    style UC2 fill:#fff,stroke:#333
+    style UC3 fill:#fff,stroke:#333
+    style UC4 fill:#fff,stroke:#333
+    style UC5 fill:#fff,stroke:#333
+    style UC6 fill:#fff,stroke:#333
+    style UC7 fill:#fff,stroke:#333
+    style UC8 fill:#fff,stroke:#333
+    style UC9 fill:#fff,stroke:#333
+    style UC10 fill:#fff,stroke:#333
+    style Visitor fill:#fff3e0,stroke:#fd7e14
+    style Doctor fill:#e8f5e9,stroke:#198754
+    style Admin fill:#e3f2fd,stroke:#0d6efd
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+            <!-- 3. Sequence - Login -->
+            <div class="diagram-section" id="sequence-login">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Login Sequence <span class="badge">FLOW</span></h2>
+                        <p>Authentication process flow</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-sequence-login">
+                    sequenceDiagram
+                    actor User
+                    participant UI as Login Page
+                    participant Auth as Auth Controller
+                    participant DB as Database
+                    participant Session
+
+                    User->>UI: Enter Credentials
+                    UI->>Auth: POST /login.php
+                    Auth->>DB: SELECT * FROM users WHERE email = ?
+                    DB-->>Auth: User Data
+                    Auth->>Auth: Verify Password Hash
+                    alt Password Valid
+                    Auth->>Session: Create Session (User ID, Role)
+                    Auth-->>UI: Redirect to Dashboard
+                    UI-->>User: Show Dashboard
+                    else Invalid
+                    Auth-->>UI: Show Error Message
+                    UI-->>User: "Invalid Credentials"
+                    end
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+            <!-- 4. Sequence - Forum -->
+            <div class="diagram-section" id="sequence-forum">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Forum Topic Creation <span class="badge">FLOW</span></h2>
+                        <p>Process of posting a new discussion topic</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-sequence-forum">
+                    sequenceDiagram
+                    actor Doctor
+                    participant UI as Forum Page
+                    participant System
+                    participant DB as Database
+
+                    Doctor->>UI: Click "New Topic"
+                    UI-->>Doctor: Show Topic Form
+                    Doctor->>UI: Submit (Title, Content, Category)
+                    UI->>System: POST /forum-new-topic.php
+                    System->>System: Validate Input
+                    System->>DB: INSERT INTO forum_topics
+                    DB-->>System: New Topic ID
+                    System-->>UI: Redirect to Topic View
+                    UI-->>Doctor: Show Created Topic
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+            <!-- 5. Flowchart - Video -->
+            <div class="diagram-section" id="flow-video">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Video Publishing Workflow <span class="badge">PROCESS</span></h2>
+                        <p>Steps to publish educational content</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-flow-video">
+                    flowchart TD
+                    Start([Start]) --> Login[Admin Login]
+                    Login --> Dashboard[Dashboard]
+                    Dashboard --> AddVideo[Click 'Add Video']
+                    AddVideo --> Form[Fill Video Details]
+                    Form --> Upload{Upload Type?}
+                    Upload -->|File| Local[Upload MP4]
+                    Upload -->|Link| Embed[Paste YouTube ID]
+                    Local --> Validate[Validate Data]
+                    Embed --> Validate
+                    Validate --> Save[Save to Database]
+                    Save --> Publish{Publish Now?}
+                    Publish -->|Yes| Live[Status: Published]
+                    Publish -->|No| Draft[Status: Draft]
+                    Live --> End([End])
+                    Draft --> End
+
+                    style Start fill:#f8f9fa,stroke:#333
+                    style End fill:#f8f9fa,stroke:#333
+                    style Live fill:#d1e7dd,stroke:#198754
+                    style Draft fill:#fff3cd,stroke:#ffc107
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+            <!-- 6. State Diagram -->
+            <div class="diagram-section" id="state-topic">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Forum Topic Lifecycle <span class="badge">STATE</span></h2>
+                        <p>Status transitions for discussion topics</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-state-topic">
+                    stateDiagram-v2
+                    [*] --> Active: User Creates Topic
+                    Active --> Locked: Admin Locks
+                    Active --> Pinned: Admin Pins
+                    Pinned --> Active: Admin Unpins
+                    Locked --> Active: Admin Unlocks
+                    Active --> Deleted: Admin/User Deletes
+                    Locked --> Deleted: Admin Deletes
+                    Deleted --> [*]
+
+                    note right of Active
+                    Users can reply
+                    end note
+                    note right of Locked
+                    No new replies allowed
+                    end note
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+            <!-- 7. RBAC -->
+            <div class="diagram-section" id="rbac">
+                <div class="diagram-header">
+                    <div>
+                        <h2>Role-Based Access Control <span class="badge">SECURITY</span></h2>
+                        <p>Permission matrix by user role</p>
+                    </div>
+                </div>
+                <div class="mermaid" id="diagram-rbac">
+                    graph TB
+                    User[User Identity]
+
+                    subgraph Roles
+                    Admin[Admin Role]
+                    Doctor[Doctor Role]
+                    Guest[Guest Role]
+                    end
+
+                    subgraph Permissions
+                    P1[Full System Access]
+                    P2[Manage Content]
+                    P3[Manage Users]
+                    P4[View Content]
+                    P5[Post in Forum]
+                    P6[Edit Own Profile]
+                    P7[Register/Login]
+                    end
+
+                    User --> Admin
+                    User --> Doctor
+                    User --> Guest
+
+                    Admin --> P1
+                    Admin --> P2
+                    Admin --> P3
+                    Admin --> P4
+                    Admin --> P5
+                    Admin --> P6
+
+                    Doctor --> P4
+                    Doctor --> P5
+                    Doctor --> P6
+
+                    Guest --> P7
+                    Guest --> P4
+
+                    style Admin fill:#cfe2ff,stroke:#0d6efd
+                    style Doctor fill:#d1e7dd,stroke:#198754
+                    style Guest fill:#f8f9fa,stroke:#6c757d
+                </div>
+                <div class="diagram-controls">
+                    <button onclick="saveDiagram(this)">💾 Save as Image</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <footer>
+            <p>© 2025 DentalEduHub | Technical Documentation</p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.6;">
+                Generated for development and documentation purposes
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#82ffe2',
+                primaryTextColor: '#000',
+                primaryBorderColor: '#50e6c2',
+                lineColor: '#6c757d',
+                secondaryColor: '#f8f9fa',
+                tertiaryColor: '#fff'
+            },
+            flowchart: { curve: 'basis' }
+        });
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const headerOffset = 20;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            }
+        }
+
+        function cleanName(text) {
+            return text.replace(/[\d\u0030-\u0039\u20E3\uFE0F\s\.]+/u, '').replace('DATA', '').replace('BEHAVIOR', '').replace('FLOW', '').replace('PROCESS', '').replace('STATE', '').replace('SECURITY', '').replace('INFRA', '').trim();
+        }
+
+        async function downloadDiagram(diagramId, filename) {
+            const diagramElement = document.getElementById(diagramId);
+            if (!diagramElement) return;
+
+            try {
+                const originalBg = diagramElement.style.backgroundColor;
+                diagramElement.style.backgroundColor = '#ffffff';
+
+                const canvas = await html2canvas(diagramElement, {
+                    backgroundColor: '#ffffff',
+                    scale: 3,
+                    logging: false
+                });
+
+                diagramElement.style.backgroundColor = originalBg;
+
+                const link = document.createElement('a');
+                link.download = `DentalEduHub-${filename.replace(/\s+/g, '-')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error saving diagram');
+            }
+        }
+
+        function saveDiagram(btn) {
+            const section = btn.closest('.diagram-section');
+            const mermaidDiv = section.querySelector('.mermaid');
+            const h2 = section.querySelector('h2');
+            if (mermaidDiv && h2) {
+                downloadDiagram(mermaidDiv.id, cleanName(h2.textContent));
+            }
+        }
+
+        async function downloadAllDiagrams() {
+            const sections = document.querySelectorAll('.diagram-section');
+            for (const section of sections) {
+                const mermaidDiv = section.querySelector('.mermaid');
+                const h2 = section.querySelector('h2');
+                if (mermaidDiv && h2) {
+                    await downloadDiagram(mermaidDiv.id, cleanName(h2.textContent));
+                    await new Promise(r => setTimeout(r, 500));
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
